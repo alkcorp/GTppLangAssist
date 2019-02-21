@@ -11,6 +11,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
 import gtPlusPlus.core.util.Utils;
+import net.alkalus.api.objects.misc.AcLog;
+import net.alkalus.core.locale.LocaleCache;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -21,11 +23,13 @@ public class MainWindow {
 	private JTextField textField;
 	private JComboBox<String> comboBox = new JComboBox<String>();
 	private JTextArea textArea = new JTextArea();
+	private static LocaleCache LOCALE;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		LOCALE = new LocaleCache();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -43,6 +47,7 @@ public class MainWindow {
 	 */
 	public MainWindow() {
 		initialize();
+		LOCALE.dumpLocaleMappings();
 	}
 
 	/**
