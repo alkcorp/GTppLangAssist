@@ -2,33 +2,31 @@ package alkalus.core.gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.FileWriter;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
+
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.FormSpecs;
+import com.jgoodies.forms.layout.RowSpec;
 
 import net.alkalus.api.objects.data.AutoMap;
 import net.alkalus.api.objects.misc.AcLog;
 import net.alkalus.core.locale.LocaleCache;
-import net.alkalus.core.util.data.ArrayUtils;
 import net.alkalus.core.util.data.FileUtils;
-
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import javax.swing.JLabel;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileSystemView;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import net.alkalus.core.util.data.StringUtils;
 
 public class LocaleCopier {
 
@@ -240,7 +238,11 @@ public class LocaleCopier {
 	
 	private File saveFileToSystem() {		
 		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getDefaultDirectory());
-		jfc.setDialogTitle("Save As..");		
+		jfc.setDialogTitle("Save As..");	
+		jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		jfc.setAcceptAllFileFilterUsed(false);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Language Files [.lang]", "lang");
+		jfc.addChoosableFileFilter(filter);	
 	    int retrival = jfc.showSaveDialog(null);
 	    if (retrival == JFileChooser.APPROVE_OPTION) {
 			File files = jfc.getSelectedFile();			
@@ -257,7 +259,7 @@ public class LocaleCopier {
 			AcLog.INFO("Trying to save new locale data to system.");
             //FileWriter fw = new FileWriter(mLocaleFiles[2]);
             
-            Map<String, String> aLocaleMap = new HashMap<String, String>();
+            Map<String, String> aLocaleMap = new LinkedHashMap<String, String>();
             
             //Iterate all Data One
             AutoMap<String> x1 = FileUtils.readLines(mLocaleFiles[0]);
@@ -292,15 +294,27 @@ public class LocaleCopier {
 
             //Sort it?
             //aLocaleMap = ArrayUtils.sortMapByValues(aLocaleMap);
-			//AcLog.INFO("Locale Sorted"); 
+			
+			AcLog.INFO("Saving new Locale file to "+mLocaleFiles[2].getAbsolutePath()); 
             
+
+			if (FileUtils.doesFileExist(mLocaleFiles[2])) {
+				FileUtils.removeFile(mLocaleFiles[2]);
+			}			
+			if (!FileUtils.doesFileExist(mLocaleFiles[2])) {				
+				mLocaleFiles[2].createNewFile();
+			}
+			
+			
             //Now we remap this to file
             for (String g : aLocaleMap.keySet()) {
             	String aLocaleString = g+"="+aLocaleMap.get(g);
             	FileUtils.appendLineToFile(mLocaleFiles[2], aLocaleString);
-    			AcLog.INFO("Wrote '"+aLocaleString+"' to file"); 
+            	FileUtils.appendLineToFile(mLocaleFiles[2], StringUtils.linebreak);
+    			//AcLog.INFO("Wrote '"+aLocaleString+"' to file"); 
             }
             
+            AcLog.INFO("Completed writing data to "+mLocaleFiles[2].getAbsolutePath());
             //fw.write(sb.toString());
         } catch (Exception ex) {
             ex.printStackTrace();

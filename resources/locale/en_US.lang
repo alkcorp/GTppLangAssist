@@ -1,0 +1,14 @@
+menu.tab.1=Locale Assistant
+menu.tab.2=Data Generator
+menu.tab.3=Unused
+
+//First Tab
+text.info.file.1=File #1
+text.info.file.2=File #2
+text.info.file.3=Output
+text.info.langchange=Copies Missing data from File 1 -> File 2
+text.info.badfile=Invalid File
+button.select.1=Select #1
+button.select.2=Select #2
+button.save=Save As...
+button.go=Start
