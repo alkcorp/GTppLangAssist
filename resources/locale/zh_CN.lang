@@ -1,0 +1,15 @@
+menu.tab.1=本地化助手
+menu.tab.2=数据生成器
+menu.tab.3=无用
+ 
+//First Tab
+text.info.file.1=文件#1
+text.info.file.2=文件#2
+text.info.file.3=输出
+text.info.langchange=从文件1复制缺少的数据到文件2
+text.info.badfile=无效文件
+button.select.1=选择#1
+button.select.2=选择#2
+button.save=保存为...
+button.go=启动
+
