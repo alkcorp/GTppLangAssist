@@ -1,21 +1,19 @@
 package alkalus.core.gui;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JComboBox;
 import java.awt.BorderLayout;
-import javax.swing.JButton;
-import javax.swing.JTextArea;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JTextField;
-
-import gtPlusPlus.core.util.Utils;
-import net.alkalus.api.objects.misc.AcLog;
-import net.alkalus.core.locale.LocaleCache;
-
+import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+import net.alkalus.core.locale.LocaleCache;
+import net.alkalus.core.util.data.StringUtils;
 
 public class MainWindow {
 
@@ -72,7 +70,7 @@ public class MainWindow {
 				if (aMode.toLowerCase().contains("ore")) {
 					String mName = textField.getText();
 					mName = (mName == null || mName.length() <= 0 ? "ERROR" : mName);
-					String mNameFormatted = Utils.sanitizeString(mName);
+					String mNameFormatted = StringUtils.sanitizeString(mName);
 					textArea.setText("tile.Ore" + mNameFormatted + ".name=" + mName + " Ore" + "\n" + "item.crushed"
 							+ mNameFormatted + ".name=Crushed " + mName + " Ore" + "\n" + "item.crushedCentrifuged"
 							+ mNameFormatted + ".name=Centrifuged Crushed " + mName + " Ore" + "\n"
@@ -115,7 +113,7 @@ public class MainWindow {
 				else if (aMode.toLowerCase().contains("custom")) {
 					String mName = textField.getText();
 					mName = (mName == null || mName.length() <= 0 ? "ERROR" : mName);
-					String mNameFormatted = Utils.sanitizeString(mName);
+					String mNameFormatted = StringUtils.sanitizeString(mName);
 					textArea.setText("item.itemIngot" + mNameFormatted + ".name=" + mName + " Ingot" + "\n"
 							+ "item.itemHotIngot" + mNameFormatted + ".name=Hot " + mName + " Ingot" + "\n"
 							+ "item.itemDust" + mNameFormatted + ".name=" + mName + " Dust" + "\n" + "item.itemDustTiny"
@@ -158,7 +156,7 @@ public class MainWindow {
 
 						String mName = h;
 						mName = (mName == null || mName.length() <= 0 ? "ERROR" : mName);
-						String mNameFormatted = Utils.sanitizeString(mName);
+						String mNameFormatted = StringUtils.sanitizeString(mName);
 						aReiss += ("tile.Ore" + mNameFormatted + ".name=" + mName + " Ore" + "\n" + "item.crushed"
 								+ mNameFormatted + ".name=Crushed " + mName + " Ore" + "\n" + "item.crushedCentrifuged"
 								+ mNameFormatted + ".name=Centrifuged Crushed " + mName + " Ore" + "\n"

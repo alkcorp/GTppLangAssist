@@ -260,6 +260,7 @@ public class LocaleCopier {
             //FileWriter fw = new FileWriter(mLocaleFiles[2]);
             
             Map<String, String> aLocaleMap = new LinkedHashMap<String, String>();
+            AutoMap<String> aKeys = new AutoMap<String>();
             
             //Iterate all Data One
             AutoMap<String> x1 = FileUtils.readLines(mLocaleFiles[0]);
@@ -270,13 +271,19 @@ public class LocaleCopier {
 			AcLog.INFO("Read second locale file ["+mLocaleFiles[1].getName()+"]");   
 
 			AcLog.INFO("Inserting Key Data.");
+			
             //Copy Keys 
 			int r1 = 0;
             for (String i1 : x1) {
             	String[] aSegment = i1.split("=");
             	if (aSegment != null && aSegment.length > 1) {
                 	aLocaleMap.put(aSegment[0], aSegment[1]);  
+                	aKeys.put(aSegment[0]);
             	} 
+            	else {
+                	aLocaleMap.put("PLACEHOLDER-"+r1, i1);  
+                	aKeys.remove(i1);            		
+            	}
             	r1++;
             }
 			AcLog.INFO("Inserted "+aLocaleMap.size()+" keys, now to overwrite them with the secondary locale data. Iterated "+r1+" times.");
@@ -288,6 +295,11 @@ public class LocaleCopier {
             	if (aSegment != null && aSegment.length > 1) {
                 	aLocaleMap.put(aSegment[0], aSegment[1]); 
                 	r2++;
+                	aKeys.remove(aSegment[0]);
+            	}
+            	else {
+                	aLocaleMap.put("PLACEHOLDER-"+21, i1); 
+                	aKeys.remove(i1);            		
             	}
             } 
 			AcLog.INFO("Reinserted "+r2+"/"+aLocaleMap.size()+" keys");     
@@ -313,6 +325,11 @@ public class LocaleCopier {
             	FileUtils.appendLineToFile(mLocaleFiles[2], StringUtils.linebreak);
     			//AcLog.INFO("Wrote '"+aLocaleString+"' to file"); 
             }
+            
+            for (String h : aKeys) {
+    			AcLog.INFO("Key: '"+h+"' was missing from "+mLocaleFiles[1].getName()+", however it existed in "+mLocaleFiles[0].getName()+", so it has been added.");             	
+            }
+            
             
             AcLog.INFO("Completed writing data to "+mLocaleFiles[2].getAbsolutePath());
             //fw.write(sb.toString());
