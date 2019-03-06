@@ -17,17 +17,28 @@ import net.alkalus.core.util.data.StringUtils;
 
 public class MainWindow {
 
+	@Override
+	protected void finalize() throws Throwable {
+		ProgramSelector.mInstance.mMainGuiInstance.mFrame.setVisible(true);;
+		super.finalize();
+	}
+
 	private JFrame frame;
 	private JTextField textField;
 	private JComboBox<String> comboBox = new JComboBox<String>();
 	private JTextArea textArea = new JTextArea();
 	private static LocaleCache LOCALE;
 
+	
+	public static void main() {
+		main(new String[] {});
+	}
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		LOCALE = new LocaleCache();
+		LOCALE = ProgramSelector.LOCALE;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

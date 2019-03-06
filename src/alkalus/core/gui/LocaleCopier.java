@@ -36,9 +36,20 @@ public class LocaleCopier {
 	private JLabel lblFilename_1;	
 	private JLabel lblNewLabel;
 	
-	static LocaleCache LOCALE = new LocaleCache();
+	static LocaleCache LOCALE = ProgramSelector.LOCALE;
 	private File[] mLocaleFiles = new File[3];
 
+	@Override
+	protected void finalize() throws Throwable {
+		ProgramSelector.mInstance.mMainGuiInstance.mFrame.setVisible(true);;
+		super.finalize();
+	}
+
+	
+	public static void main() {
+		main(new String[] {});
+	}
+	
 	/**
 	 * Launch the application.
 	 */

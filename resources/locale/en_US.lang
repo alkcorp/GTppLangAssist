@@ -1,7 +1,11 @@
+//Main Program Frame
 menu.tab.1=Locale Assistant
+menu.tab.1.info=Used to automatically update Locale file B using data from Locale file A.
 menu.tab.2=Data Generator
+menu.tab.2.info=Used to assist in generation of material data.
 menu.tab.3=Unused
-
+menu.tab.3.info=||||
+text.info.selectprogram=Select module to run
 //First Tab
 text.info.file.1=File #1
 text.info.file.2=File #2
