@@ -1,4 +1,4 @@
-package alkalus.core.gui;
+package net.alkalus.core.gui;
 
 public class LogicThread implements Runnable {
 	

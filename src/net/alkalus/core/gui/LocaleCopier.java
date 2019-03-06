@@ -1,4 +1,6 @@
-package alkalus.core.gui;
+package net.alkalus.core.gui;
+
+import static net.alkalus.core.gui.ProgramSelector.LOCALE;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -36,7 +38,6 @@ public class LocaleCopier {
 	private JLabel lblFilename_1;	
 	private JLabel lblNewLabel;
 	
-	static LocaleCache LOCALE = ProgramSelector.LOCALE;
 	private File[] mLocaleFiles = new File[3];
 
 	@Override
@@ -54,7 +55,6 @@ public class LocaleCopier {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		LOCALE.dumpLocaleMappings();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -267,7 +267,7 @@ public class LocaleCopier {
 	
 	private final void generateNewLocaleFile() {
 		try {
-			AcLog.INFO("Trying to save new locale data to system.");
+			net.alkalus.core.gui.ProgramSelector.logToFile("Trying to save new locale data to system.");
             //FileWriter fw = new FileWriter(mLocaleFiles[2]);
             
             Map<String, String> aLocaleMap = new LinkedHashMap<String, String>();
@@ -275,13 +275,13 @@ public class LocaleCopier {
             
             //Iterate all Data One
             AutoMap<String> x1 = FileUtils.readLines(mLocaleFiles[0]);
-			AcLog.INFO("Read first locale file ["+mLocaleFiles[0].getName()+"]");           
+			net.alkalus.core.gui.ProgramSelector.logToFile("Read first locale file ["+mLocaleFiles[0].getName()+"]");           
             
             //Iterate all Data Two
             AutoMap<String> x2 = FileUtils.readLines(mLocaleFiles[1]);
-			AcLog.INFO("Read second locale file ["+mLocaleFiles[1].getName()+"]");   
+			net.alkalus.core.gui.ProgramSelector.logToFile("Read second locale file ["+mLocaleFiles[1].getName()+"]");   
 
-			AcLog.INFO("Inserting Key Data.");
+			net.alkalus.core.gui.ProgramSelector.logToFile("Inserting Key Data.");
 			
             //Copy Keys 
 			int r1 = 0;
@@ -297,7 +297,7 @@ public class LocaleCopier {
             	}
             	r1++;
             }
-			AcLog.INFO("Inserted "+aLocaleMap.size()+" keys, now to overwrite them with the secondary locale data. Iterated "+r1+" times.");
+			net.alkalus.core.gui.ProgramSelector.logToFile("Inserted "+aLocaleMap.size()+" keys, now to overwrite them with the secondary locale data. Iterated "+r1+" times.");
             
             //Override existing keys with disered locale
 			int r2 = 0;
@@ -313,12 +313,12 @@ public class LocaleCopier {
                 	aKeys.remove(i1);            		
             	}
             } 
-			AcLog.INFO("Reinserted "+r2+"/"+aLocaleMap.size()+" keys");     
+			net.alkalus.core.gui.ProgramSelector.logToFile("Reinserted "+r2+"/"+aLocaleMap.size()+" keys");     
 
             //Sort it?
             //aLocaleMap = ArrayUtils.sortMapByValues(aLocaleMap);
 			
-			AcLog.INFO("Saving new Locale file to "+mLocaleFiles[2].getAbsolutePath()); 
+			net.alkalus.core.gui.ProgramSelector.logToFile("Saving new Locale file to "+mLocaleFiles[2].getAbsolutePath()); 
             
 
 			if (FileUtils.doesFileExist(mLocaleFiles[2])) {
@@ -334,15 +334,15 @@ public class LocaleCopier {
             	String aLocaleString = g+"="+aLocaleMap.get(g);
             	FileUtils.appendLineToFile(mLocaleFiles[2], aLocaleString);
             	FileUtils.appendLineToFile(mLocaleFiles[2], StringUtils.linebreak);
-    			//AcLog.INFO("Wrote '"+aLocaleString+"' to file"); 
+    			net.alkalus.core.gui.ProgramSelector.logToFile("Wrote '"+aLocaleString+"' to file"); 
             }
             
             for (String h : aKeys) {
-    			AcLog.INFO("Key: '"+h+"' was missing from "+mLocaleFiles[1].getName()+", however it existed in "+mLocaleFiles[0].getName()+", so it has been added.");             	
+    			net.alkalus.core.gui.ProgramSelector.logToFile("Key: '"+h+"' was missing from "+mLocaleFiles[1].getName()+", however it existed in "+mLocaleFiles[0].getName()+", so it has been added.");             	
             }
             
             
-            AcLog.INFO("Completed writing data to "+mLocaleFiles[2].getAbsolutePath());
+            net.alkalus.core.gui.ProgramSelector.logToFile("Completed writing data to "+mLocaleFiles[2].getAbsolutePath());
             //fw.write(sb.toString());
         } catch (Exception ex) {
             ex.printStackTrace();

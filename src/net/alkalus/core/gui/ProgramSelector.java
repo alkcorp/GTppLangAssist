@@ -1,48 +1,46 @@
-package alkalus.core.gui;
+package net.alkalus.core.gui;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
 import java.awt.BorderLayout;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JButton;
-import javax.swing.JLabel;
+import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import net.alkalus.api.objects.misc.AcLog;
 import net.alkalus.core.locale.LocaleCache;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Locale;
 
 public class ProgramSelector {
 
 	public JFrame mFrame;
 	public static final LogicThread mInstance;	
-	protected static final LocaleCache LOCALE;
+	public static final AcLog mLog = new LocaleLogger();
+	protected static final InternalLocaleCache LOCALE;
+	
+	public static void logToFile(String aLogString) {
+		mLog.info(aLogString);	
+	}
+	
 	
 	static {
 		mInstance = new LogicThread();		
-		Locale locale = Locale.getDefault();
-		String lang = locale.getDisplayLanguage();
-		String country = locale.getDisplayCountry();
-		String built1 = lang+"_"+country;
-		country = System.getProperty("user.country"); 
-		lang = System.getProperty("user.language");
-		String built2 = lang+"_"+country;		
-		if (built1 != null && built2 != null && built1.equals(built2)) {
-			AcLog.INFO("Creating Locale cache Using: "+built1+".");
-			LOCALE = new LocaleCache(built1);			
+		String built1 = LocaleCache.getSystemDefaultLocale();
+		if (built1 != null) {
+			logToFile("Creating Locale cache Using: "+built1+".");
+			LOCALE = new InternalLocaleCache(built1);			
 		}
 		else {
-			AcLog.INFO("Creating Locale cache using default locale. Found "+built1+", "+built2+".");
-			LOCALE = new LocaleCache();			
-		}
-		
-		
+			logToFile("Creating Locale cache using default locale. Found "+built1+".");
+			LOCALE = new InternalLocaleCache();			
+		}	
+		LOCALE.dumpLocaleMappings(mLog);	
 	}
 	
 	

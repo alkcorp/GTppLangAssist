@@ -1,4 +1,4 @@
-package alkalus.core.gui;
+package net.alkalus.core.gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
